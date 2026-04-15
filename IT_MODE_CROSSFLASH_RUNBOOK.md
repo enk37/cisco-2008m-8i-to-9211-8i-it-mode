@@ -11,11 +11,6 @@ The validated run documented here used:
 - operating system: `Xubuntu 25.10 minimal`
 - boot medium: USB stick
 
-That host detail matters because it produced three platform-specific lessons:
-- FreeDOS `sas2flsh.exe` was not viable due to PAL/BIOS32 issues on this platform
-- UEFI `sas2flash.efi` also did not provide a viable flash path on this platform
-- GRUB/kernel-arg IOMMU disable caused repeated `initramfs` failures, while disabling VT-d in BIOS worked
-
 ## What did not work for the controller path
 
 These paths were tried and rejected in the validated project:
