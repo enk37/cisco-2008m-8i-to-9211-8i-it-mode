@@ -15,4 +15,3 @@ Bundled source trees:
 
 Scope note:
 - this repository is about the controller cross-flash only
-- it does not attempt to document Samsung SSD recovery beyond noting that the HBA conversion itself was successful

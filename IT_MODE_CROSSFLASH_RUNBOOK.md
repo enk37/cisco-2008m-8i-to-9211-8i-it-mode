@@ -13,6 +13,7 @@ The validated run documented here used:
 
 That host detail matters because two environment-specific lessons came out of it:
 - FreeDOS `sas2flsh.exe` was not viable due to PAL/BIOS32 issues on this platform
+- UEFI `sas2flash.efi` also did not provide a viable flash path on this platform
 - GRUB/kernel-arg IOMMU disable caused repeated `initramfs` failures, while disabling VT-d in BIOS worked
 
 ## Scope
@@ -52,6 +53,7 @@ Back up everything you can first:
 
 Conventional paths were not reliable on this platform:
 - FreeDOS `sas2flsh.exe` failed with PAL/BIOS32 initialization issues
+- UEFI `sas2flash.efi` also failed to provide a usable cross-flash path on this host
 - GRUB kernel-arg IOMMU disable caused repeated `initramfs` failures on this host
 
 What finally worked:
@@ -363,7 +365,15 @@ Problem:
 Conclusion:
 - not a viable primary path here
 
-### 2. GRUB/kernel-arg IOMMU disable
+### 2. UEFI `sas2flash.efi`
+
+Problem:
+- also not a viable flash path on this host
+
+Conclusion:
+- the successful route was Linux `lsirec` + `lsiutil`, not DOS or EFI `sas2flash`
+
+### 3. GRUB/kernel-arg IOMMU disable
 
 Problem:
 - repeated drops into `initramfs`
