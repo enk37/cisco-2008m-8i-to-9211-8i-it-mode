@@ -26,7 +26,7 @@ Conclusion:
 ### 2. UEFI `sas2flash.efi`
 
 Problem:
-- also not a viable flash path on this host
+- from the EFI shell, `sas2flash.efi -listall` reported that no controllers were found
 
 Conclusion:
 - the successful route was Linux `lsirec` + `lsiutil`, not DOS or EFI `sas2flash`
