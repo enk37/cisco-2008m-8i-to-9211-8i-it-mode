@@ -11,10 +11,38 @@ The validated run documented here used:
 - operating system: `Xubuntu 25.10 minimal`
 - boot medium: USB stick
 
-That host detail matters because two environment-specific lessons came out of it:
+That host detail matters because it produced three platform-specific lessons:
 - FreeDOS `sas2flsh.exe` was not viable due to PAL/BIOS32 issues on this platform
 - UEFI `sas2flash.efi` also did not provide a viable flash path on this platform
 - GRUB/kernel-arg IOMMU disable caused repeated `initramfs` failures, while disabling VT-d in BIOS worked
+
+## What did not work for the controller path
+
+These paths were tried and rejected in the validated project:
+
+### 1. FreeDOS `sas2flsh.exe`
+
+Problem:
+- PAL / BIOS32 initialization failure on this host
+
+Conclusion:
+- not a viable primary path here
+
+### 2. UEFI `sas2flash.efi`
+
+Problem:
+- also not a viable flash path on this host
+
+Conclusion:
+- the successful route was Linux `lsirec` + `lsiutil`, not DOS or EFI `sas2flash`
+
+### 3. GRUB/kernel-arg IOMMU disable
+
+Problem:
+- repeated drops into `initramfs`
+
+Conclusion:
+- BIOS VT-d disable was the correct approach on this host
 
 ## Scope
 
@@ -26,7 +54,6 @@ This runbook is for:
 This is **not** for:
 - SAS3008/SAS3 cards
 - generic “flash any LSI card” use
-- SSD firmware recovery workflows
 
 ## Outcome
 
@@ -49,14 +76,8 @@ Back up everything you can first:
 - current PCI identity
 - SAS WWID
 
-## Why this path was needed
+## What finally worked
 
-Conventional paths were not reliable on this platform:
-- FreeDOS `sas2flsh.exe` failed with PAL/BIOS32 initialization issues
-- UEFI `sas2flash.efi` also failed to provide a usable cross-flash path on this host
-- GRUB kernel-arg IOMMU disable caused repeated `initramfs` failures on this host
-
-What finally worked:
 - disable VT-d in BIOS
 - use Linux `lsirec`
 - use `lsiutil` after `hostboot`
@@ -138,8 +159,6 @@ Not required for pure IT-mode data access.
 ### Disable VT-d in BIOS
 
 Do this in BIOS.
-
-Do **not** assume kernel-arg IOMMU disable is safe. On the validated host, GRUB/kernel-arg IOMMU disable repeatedly caused `initramfs` failures.
 
 ### Hugepages
 
@@ -353,37 +372,7 @@ lsscsi -g
 lsblk
 ```
 
-## What did not work for the controller path
-
-These paths were tried and rejected in the validated project:
-
-### 1. FreeDOS `sas2flsh.exe`
-
-Problem:
-- PAL / BIOS32 initialization failure on this host
-
-Conclusion:
-- not a viable primary path here
-
-### 2. UEFI `sas2flash.efi`
-
-Problem:
-- also not a viable flash path on this host
-
-Conclusion:
-- the successful route was Linux `lsirec` + `lsiutil`, not DOS or EFI `sas2flash`
-
-### 3. GRUB/kernel-arg IOMMU disable
-
-Problem:
-- repeated drops into `initramfs`
-
-Conclusion:
-- BIOS VT-d disable was the correct approach on this host
-
 ## Summary
 
 If your goal is:
 - **cross-flash the Cisco SAS2008M-8i controller into IT mode**, this workflow is proven
-
-This controller-focused runbook is worth keeping as a standalone skill because the HBA conversion worked end to end.
