@@ -65,6 +65,10 @@ This can brick the HBA.
 
 Do not do this on a controller that is still needed in production.
 
+This material is provided as-is, without warranty.
+
+If you follow it, you do so entirely at your own risk and accept full responsibility for any damage, data loss, or hardware failure.
+
 Back up everything you can first:
 - SBR
 - complete flash

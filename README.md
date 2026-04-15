@@ -15,3 +15,8 @@ Bundled source trees:
 
 Scope note:
 - this repository is about the controller cross-flash only
+
+Disclaimer:
+- this material is provided as-is, without warranty
+- any use is entirely at the reader's own risk
+- the reader is fully responsible for any damage, data loss, or hardware failure
